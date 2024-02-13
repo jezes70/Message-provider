@@ -1,0 +1,42 @@
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+      register:
+        with:
+          eureka: true
+      fetch-registry: true
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      routes:
+        - id: AUTH-MODULE
+          uri: lb://AUTH-MODULE
+          predicates:
+            - Path=/api/v1/auth/**
+        - id: PROFILE-MODULE
+          uri: lb://PROFILE-MODULE
+          predicates:
+            - Path=/api/profile/**
+
+  main:
+   allow-circular-references: true
+
+server:
+  port: 9092
+
+jwtSecret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970ARN304N39FR3NRF44
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG # Example of setting the logging level for Spring Web classes to DEBUG
+    com.example.apigateway: DEBUG # Ex
+
